@@ -19,11 +19,11 @@ WORKDIR /app
 # Copy the JAR file from the builder stage
 COPY --from=builder /app/target/*.jar app.jar
 
-# Expose the port (adjust if needed)
-EXPOSE 8080
+# ✅ Expose the dynamic port (use 8080 locally)
+EXPOSE ${PORT:-8080}
 
-# Run the JAR file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# ✅ Ensure Spring Boot picks up Railway's port dynamically
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT:-8080}"]
 
 
 
