@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Doctors</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <!-- (Optional) Bootstrap Icons -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <style>
+    body {
+      background-color: #f8f9fa; /* Subtle light gray background */
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2 class="mb-4">
+    <i class="bi bi-person-badge-fill"></i> Manage Doctors
+  </h2>
+
+  <!-- Display success or error messages -->
+  <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+  <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+  <!-- Card for Existing Doctors Table -->
+  <div class="card shadow mb-4">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">
+        <i class="bi bi-card-list"></i> Existing Doctors
+      </h4>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle">
+          <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Specialization</th>
+            <th>Phone</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="doc : ${doctors}">
+            <td th:text="${doc.id}"></td>
+            <td th:text="${doc.fullName}"></td>
+            <td th:text="${doc.specialization}"></td>
+            <td th:text="${doc.phone}"></td>
+            <td>
+              <a class="btn btn-sm btn-info me-1"
+                 th:href="@{'/admin/doctors/' + ${doc.id} + '/edit'}">
+                <i class="bi bi-pencil"></i> Edit
+              </a>
+              <form th:action="@{'/admin/doctors/' + ${doc.id} + '/delete'}"
+                    method="post" class="d-inline">
+                <button type="submit" class="btn btn-sm btn-danger">
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(doctors)}">
+            <td colspan="5" class="text-center">No doctors found.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div> <!-- table-responsive -->
+    </div> <!-- card-body -->
+  </div> <!-- card -->
+
+  <!-- Card for Add a New Doctor Form -->
+  <div class="card shadow">
+    <div class="card-header bg-success text-white">
+      <h4 class="mb-0">
+        <i class="bi bi-person-plus-fill"></i> Add a New Doctor
+      </h4>
+    </div>
+    <div class="card-body">
+      <form th:action="@{/admin/doctors}" th:object="${doctorForm}" method="post">
+        <div class="mb-3">
+          <label for="fullName" class="form-label fw-semibold">Full Name</label>
+          <input type="text"
+                 th:field="*{fullName}"
+                 id="fullName"
+                 class="form-control"
+                 required />
+        </div>
+        <div class="mb-3">
+          <label for="specialization" class="form-label fw-semibold">Specialization</label>
+          <input type="text"
+                 th:field="*{specialization}"
+                 id="specialization"
+                 class="form-control"
+                 required />
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label fw-semibold">Phone</label>
+          <input type="text"
+                 th:field="*{phone}"
+                 id="phone"
+                 class="form-control"
+                 required />
+        </div>
+
+        <!-- New fields for user login -->
+        <div class="mb-3">
+          <label for="email" class="form-label fw-semibold">Email (for login)</label>
+          <input type="email"
+                 th:field="*{email}"
+                 id="email"
+                 class="form-control"
+                 required />
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label fw-semibold">Password</label>
+          <input type="password"
+                 th:field="*{password}"
+                 id="password"
+                 class="form-control"
+                 required />
+        </div>
+
+        <button class="btn btn-primary w-100" type="submit">
+          <i class="bi bi-person-plus"></i> Add Doctor
+        </button>
+      </form>
+    </div> <!-- card-body -->
+  </div> <!-- card -->
+
+</div> <!-- container -->
+
+<!-- Bootstrap JS (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

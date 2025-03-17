@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Medication Form</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <!-- (Optional) Bootstrap Icons -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <style>
+    body {
+      background-color: #f8f9fa; /* Subtle light gray background */
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <!-- Center the card using row/column layout -->
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <!-- Card with a subtle shadow for a modern look -->
+      <div class="card shadow">
+        <!-- Dynamic heading: "Add Medication" vs "Edit Medication" -->
+        <div class="card-header bg-success text-white">
+          <h2 class="mb-0"
+              th:text="${medication.id == null} ? 'Add Medication' : 'Edit Medication'">
+          </h2>
+        </div>
+
+        <div class="card-body">
+          <!-- Ternary expression for creation vs update action -->
+          <form th:action="${medication.id == null}
+                           ? @{/medications}
+                           : @{/medications/{id}(id=${medication.id})}"
+                method="post">
+
+            <!-- If creating a new medication -->
+            <div th:if="${medication.id == null}">
+              <!-- Patient selection -->
+              <div class="mb-3">
+                <label for="patientId" class="form-label fw-semibold">Patient</label>
+                <select class="form-select" id="patientId" name="patientId" required>
+                  <option value="" disabled selected>-- Choose Patient --</option>
+                  <option th:each="p : ${patients}"
+                          th:value="${p.id}"
+                          th:text="${p.fullName}">
+                  </option>
+                </select>
+                <small class="text-muted">Select the patient to prescribe medication for.</small>
+              </div>
+
+              <!-- Doctor selection -->
+              <div class="mb-3">
+                <label for="doctorId" class="form-label fw-semibold">Prescribing Doctor</label>
+                <select class="form-select" id="doctorId" name="doctorId">
+                  <option value="">None</option>
+                  <option th:each="d : ${doctors}"
+                          th:value="${d.id}"
+                          th:text="${d.fullName + ' (' + d.specialization + ')'}">
+                  </option>
+                </select>
+                <small class="text-muted">Optionally select the doctor prescribing this medication.</small>
+              </div>
+
+              <!-- Medication Name -->
+              <div class="mb-3">
+                <label for="name" class="form-label fw-semibold">Medication Name</label>
+                <input type="text"
+                       id="name"
+                       name="name"
+                       class="form-control"
+                       th:value="${medication.name}"
+                       required />
+                <small class="text-muted">e.g., Paracetamol, Ibuprofen, etc.</small>
+              </div>
+            </div>
+
+            <!-- If editing an existing medication -->
+            <div th:if="${medication.id != null}">
+              <!-- Medication Name (read-only) -->
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Medication Name</label>
+                <p class="form-control-plaintext" th:text="${medication.name}"></p>
+              </div>
+            </div>
+
+            <!-- Fields common to both creation and update -->
+            <div class="mb-3">
+              <label for="dosage" class="form-label fw-semibold">Dosage</label>
+              <input type="text"
+                     id="dosage"
+                     name="dosage"
+                     class="form-control"
+                     th:value="${medication.dosage}"
+                     required />
+              <small class="text-muted">e.g., 500mg, 1 tablet, etc.</small>
+            </div>
+
+            <div class="mb-3">
+              <label for="frequency" class="form-label fw-semibold">Frequency</label>
+              <input type="text"
+                     id="frequency"
+                     name="frequency"
+                     class="form-control"
+                     th:value="${medication.frequency}"
+                     required />
+              <small class="text-muted">e.g., Twice a day, every 6 hours, etc.</small>
+            </div>
+
+            <div class="mb-3">
+              <label for="duration" class="form-label fw-semibold">Duration</label>
+              <input type="text"
+                     id="duration"
+                     name="duration"
+                     class="form-control"
+                     th:value="${medication.duration}"
+                     required />
+              <small class="text-muted">e.g., 5 days, 2 weeks, etc.</small>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-end mt-4">
+              <button class="btn btn-primary me-2" type="submit">
+                <i class="bi bi-save"></i> Save
+              </button>
+              <a th:href="@{/medications}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left-circle"></i> Cancel
+              </a>
+            </div>
+          </form>
+        </div> <!-- card-body -->
+      </div> <!-- card -->
+    </div> <!-- col -->
+  </div> <!-- row -->
+</div> <!-- container -->
+
+<!-- Bootstrap JS (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

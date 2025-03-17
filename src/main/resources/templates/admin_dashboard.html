@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <!-- (Optional) Bootstrap Icons -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <style>
+    /* Subtle background color for the page */
+    body {
+      background-color: #f8f9fa;
+    }
+
+    /* Slightly round the corners of the card */
+    .card {
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Optional Navbar Fragment -->
+<header th:replace="~{fragments/navbar :: navbarFragment}"></header>
+
+<main class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <!-- Card with a subtle shadow for a modern look -->
+      <div class="card shadow">
+        <!-- Keep the primary header color -->
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">
+            <!-- Optional icon -->
+            <i class="bi bi-speedometer2"></i> Admin Dashboard
+          </h2>
+        </div>
+        <div class="card-body text-center">
+          <p class="fs-5">Welcome, Admin!</p>
+          <hr/>
+          <!-- Centered Buttons -->
+          <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+            <!-- Manage Doctors -->
+            <a class="btn btn-outline-primary" th:href="@{/admin/doctors}">
+              <i class="bi bi-person-badge"></i> Manage Doctors
+            </a>
+
+            <!-- Manage Patients -->
+            <a class="btn btn-outline-secondary" th:href="@{/admin/patients}">
+              <i class="bi bi-people-fill"></i> Manage Patients
+            </a>
+
+            <!-- Manage Appointments -->
+            <a class="btn btn-outline-info" th:href="@{/appointments}">
+              <i class="bi bi-calendar2-check"></i> Manage Appointments
+            </a>
+          </div>
+        </div> <!-- card-body -->
+      </div> <!-- card -->
+    </div> <!-- col -->
+  </div> <!-- row -->
+</main>
+
+<!-- Bootstrap JS (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

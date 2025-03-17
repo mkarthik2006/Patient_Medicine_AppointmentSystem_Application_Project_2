@@ -1,0 +1,53 @@
+<!-- fragments/navbar.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <title>Navbar Fragment</title>
+</head>
+<body>
+<!-- fragments/navbar.html -->
+<div th:fragment="navbarFragment">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <!-- Brand -->
+      <a class="navbar-brand" th:href="@{/}">
+        Patient Medicine and Appointment System
+      </a>
+
+      <!-- Mobile toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Collapsible content -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto">
+          <!-- Dashboard visible when authenticated -->
+          <li class="nav-item" sec:authorize="isAuthenticated()">
+            <a class="nav-link" th:href="@{/dashboard}">Dashboard</a>
+          </li>
+
+          <!-- Logout button for authenticated users -->
+          <li class="nav-item" sec:authorize="isAuthenticated()">
+            <a class="nav-link btn btn-outline-light btn-sm ms-2" th:href="@{/logout}">
+              Logout
+            </a>
+          </li>
+
+          <!-- Login link visible only when not authenticated -->
+          <li class="nav-item" sec:authorize="!isAuthenticated()">
+            <a class="nav-link" th:href="@{/login}">Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+</body>
+</html>
+
